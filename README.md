@@ -46,11 +46,11 @@ and then displays them in order to copy the required payloads to your intruder:
 
 ```
 
-![Collaborator](img/payloads.png)
+![Payloads](img/payloads.png)
 
 You can use them in an Intruder attack to check which payloads worked:
 
-![Collaborator](img/intruder.png)
+![Intruder](img/intruder.png)
 ![Collaborator](img/collaborator.png)
 
 ## Worth reading
